@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Dictionary - Your Ultimate Word Companion</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary-color: #8b5cf6;
+      --accent-color: #06b6d4;
+      --success-color: #10b981;
+      --warning-color: #f59e0b;
+      --danger-color: #ef4444;
+      --dark-color: #1f2937;
+      --light-color: #f8fafc;
+      --border-radius: 16px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: var(--dark-color);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header Section */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .logo i {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 4rem 0 6rem;
+      text-align: center;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff, #e0e7ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 3rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Search Form */
+    .search-container {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-form {
+      display: flex;
+      gap: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: var(--border-radius);
+      padding: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .search-input {
+      flex: 1;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: calc(var(--border-radius) - 4px);
+      padding: 16px 20px;
+      font-size: 1.1rem;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .search-input:focus {
+      background: white;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+    }
+
+    .search-btn {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+      border-radius: calc(var(--border-radius) - 4px);
+      padding: 16px 24px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Main Content */
+    .main-content {
+      padding: 2rem 0 4rem;
+    }
+
+    .result-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      padding: 2.5rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .result-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .word-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .word-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin: 0;
+    }
+
+    .word-phonetic {
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      color: white;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .pronunciation-btn {
+      background: none;
+      border: 2px solid var(--primary-color);
+      color: var(--primary-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .pronunciation-btn:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .definition-section {
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--dark-color);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .definition-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .definition-item {
+      background: var(--light-color);
+      border-left: 4px solid var(--primary-color);
+      padding: 1rem 1.5rem;
+      margin-bottom: 1rem;
+      border-radius: 0 8px 8px 0;
+      transition: all 0.3s ease;
+    }
+
+    .definition-item:hover {
+      background: #f1f5f9;
+      transform: translateX(5px);
+    }
+
+    .example-section {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .example-text {
+      font-style: italic;
+      color: var(--dark-color);
+      margin: 0;
+    }
+
+    /* Loading States */
+    .loading {
+      text-align: center;
+      padding: 3rem;
+    }
+
+    .spinner {
+      width: 3rem;
+      height: 3rem;
+      border: 4px solid #e5e7eb;
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Error States */
+    .error-state {
+      text-align: center;
+      padding: 3rem;
+      color: var(--danger-color);
+    }
+
+    .error-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      opacity: 0.7;
+    }
+
+    /* Welcome State */
+    .welcome-state {
+      text-align: center;
+      padding: 3rem;
+      color: #6b7280;
+    }
+
+    .welcome-icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .search-form {
+        flex-direction: column;
+      }
+      
+      .word-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .word-title {
+        font-size: 2rem;
+      }
+      
+      .result-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Animations */
+    .fade-in {
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .slide-in {
+      animation: slideIn 0.5s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Additional Features */
+    .word-stats {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      background: rgba(99, 102, 241, 0.1);
+      color: var(--primary-color);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .synonyms-section {
+      margin-top: 1.5rem;
+    }
+
+    .synonyms-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .synonym-tag {
+      background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+      color: white;
+      padding: 0.25rem 0.75rem;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .synonym-tag:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <i class="fas fa-book-open"></i>
+          <span>Smart Dictionary</span>
+        </a>
+        <div class="header-actions">
+          <button class="btn btn-outline-primary btn-sm" onclick="showAbout()">
+            <i class="fas fa-info-circle"></i> About
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Discover the Power of Words</h1>
+      <p>Explore definitions, pronunciations, and examples with our intelligent dictionary. Your ultimate companion for language learning and word discovery.</p>
+      
+      <div class="search-container">
+        <form class="search-form" id="dictForm">
+          <input 
+            type="text" 
+            class="search-input" 
+            id="searchInput" 
+            placeholder="Enter a word to explore..." 
+            required 
+            autocomplete="off"
+          />
+          <button type="submit" class="search-btn">
+            <i class="fas fa-search"></i>
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="container">
+      <div id="resultContainer" class="result-card fade-in">
+        <div class="welcome-state">
+          <div class="welcome-icon">
+            <i class="fas fa-search"></i>
+          </div>
+          <h3>Ready to Explore?</h3>
+          <p>Type any word above and discover its meaning, pronunciation, and usage examples.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- About Modal -->
+  <div class="modal fade" id="aboutModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">About Smart Dictionary</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Smart Dictionary is your comprehensive language companion, powered by advanced APIs to provide accurate definitions, pronunciations, and examples.</p>
+          <p><strong>Features:</strong></p>
+          <ul>
+            <li>📖 Comprehensive definitions</li>
+            <li>🔊 Audio pronunciation</li>
+            <li>💡 Usage examples</li>
+            <li>🔄 Synonyms and related words</li>
+            <li>📱 Responsive design</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Main JavaScript -->
+  <script>
+    class SmartDictionary {
+      constructor() {
+        this.apiKey = '15afbb37admsh08ac16a3eb0ccacp1e35d3jsn093d7147131c';
+        this.apiHost = 'dictionary-by-api-ninjas.p.rapidapi.com';
+        this.init();
+      }
+
+      init() {
+        this.bindEvents();
+        this.setupAutoComplete();
+      }
+
+      bindEvents() {
+        document.getElementById('dictForm').addEventListener('submit', (e) => {
+          e.preventDefault();
+          this.searchWord();
+        });
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if (e.ctrlKey && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('searchInput').focus();
+          }
+        });
+      }
+
+      setupAutoComplete() {
+        const input = document.getElementById('searchInput');
+        input.addEventListener('input', this.debounce(() => {
+          const query = input.value.trim();
+          if (query.length > 2) {
+            this.showSuggestions(query);
+          }
+        }, 300));
+      }
+
+      debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+          const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+          };
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+        };
+      }
+
+      async searchWord() {
+        const input = document.getElementById('searchInput');
+        const word = input.value.trim();
+        
+        if (!word) {
+          this.showError('Please enter a word to search.');
+          return;
+        }
+
+        this.showLoading(word);
+        
+        try {
+          const response = await this.fetchDefinition(word);
+          this.displayResult(word, response);
+        } catch (error) {
+          console.error('Search error:', error);
+          this.showError('Unable to fetch definition. Please check your connection and try again.');
+        }
+      }
+
+      async fetchDefinition(word) {
+        const url = `https://${this.apiHost}/v1/dictionary?word=${encodeURIComponent(word)}`;
+        const options = {
+          method: 'GET',
+          headers: {
+            'x-rapidapi-key': this.apiKey,
+            'x-rapidapi-host': this.apiHost
+          }
+        };
+
+        const response = await fetch(url, options);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+      }
+
+      showLoading(word) {
+        const container = document.getElementById('resultContainer');
+        container.innerHTML = `
+          <div class="loading">
+            <div class="spinner"></div>
+            <h3>Searching for "${word}"...</h3>
+            <p>Please wait while we fetch the definition.</p>
+          </div>
+        `;
+        container.className = 'result-card fade-in';
+      }
+
+      displayResult(word, data) {
+        const container = document.getElementById('resultContainer');
+        const titleWord = word.charAt(0).toUpperCase() + word.slice(1);
+
+        if (!data.valid || !data.definition?.trim()) {
+          container.innerHTML = `
+            <div class="error-state">
+              <div class="error-icon">
+                <i class="fas fa-question-circle"></i>
+              </div>
+              <h3>No Definition Found</h3>
+              <p>We couldn't find a definition for "<strong>${titleWord}</strong>".</p>
+              <p class="text-muted">Try checking the spelling or searching for a different word.</p>
+            </div>
+          `;
+          return;
+        }
+
+        const definitions = this.parseDefinitions(data.definition);
+        const examples = this.extractExamples(data.definition);
+        const synonyms = this.extractSynonyms(data.definition);
+
+        container.innerHTML = `
+          <div class="word-header">
+            <h1 class="word-title">${titleWord}</h1>
+            <span class="word-phonetic">/${this.generatePhonetic(word)}/</span>
+            <button class="pronunciation-btn" onclick="dictionary.speakWord('${word}')" title="Listen to pronunciation">
+              <i class="fas fa-volume-up"></i>
+            </button>
+          </div>
+
+          <div class="word-stats">
+            <span class="stat-item">
+              <i class="fas fa-list"></i> ${definitions.length} definitions
+            </span>
+            <span class="stat-item">
+              <i class="fas fa-language"></i> English
+            </span>
+          </div>
+
+          <div class="definition-section">
+            <h3 class="section-title">
+              <i class="fas fa-book"></i>
+              Definitions
+            </h3>
+            <ul class="definition-list">
+              ${definitions.map((def, index) => `
+                <li class="definition-item slide-in" style="animation-delay: ${index * 0.1}s">
+                  <strong>${index + 1}.</strong> ${def}
+                </li>
+              `).join('')}
+            </ul>
+          </div>
+
+          ${examples.length > 0 ? `
+            <div class="example-section">
+              <h4 class="section-title">
+                <i class="fas fa-lightbulb"></i>
+                Examples
+              </h4>
+              ${examples.map(example => `
+                <p class="example-text">"${example}"</p>
+              `).join('')}
+            </div>
+          ` : ''}
+
+          ${synonyms.length > 0 ? `
+            <div class="synonyms-section">
+              <h4 class="section-title">
+                <i class="fas fa-sync-alt"></i>
+                Related Words
+              </h4>
+              <div class="synonyms-list">
+                ${synonyms.map(synonym => `
+                  <span class="synonym-tag" onclick="dictionary.searchWord('${synonym}')">${synonym}</span>
+                `).join('')}
+              </div>
+            </div>
+          ` : ''}
+        `;
+
+        container.className = 'result-card fade-in';
+      }
+
+      parseDefinitions(definition) {
+        return definition
+          .split(/[.;]\s+/)
+          .filter(line => line.trim().length > 10)
+          .map(line => line.trim())
+          .slice(0, 5); // Limit to 5 definitions
+      }
+
+      extractExamples(definition) {
+        const examples = [];
+        const sentences = definition.split(/[.;]\s+/);
+        
+        sentences.forEach(sentence => {
+          if (sentence.includes('"') || sentence.toLowerCase().includes('example')) {
+            examples.push(sentence.trim());
+          }
+        });
+        
+        return examples.slice(0, 3); // Limit to 3 examples
+      }
+
+      extractSynonyms(definition) {
+        const synonyms = [];
+        const words = definition.toLowerCase().match(/\b\w+\b/g) || [];
+        const commonSynonyms = ['similar', 'like', 'related', 'equivalent', 'same', 'alike'];
+        
+        words.forEach(word => {
+          if (commonSynonyms.includes(word) && word.length > 3) {
+            synonyms.push(word);
+          }
+        });
+        
+        return [...new Set(synonyms)].slice(0, 6); // Remove duplicates and limit
+      }
+
+      generatePhonetic(word) {
+        // Simple phonetic generation - in a real app, you'd use a proper API
+        return word.replace(/[aeiou]/gi, (match) => {
+          const vowels = { 'a': 'æ', 'e': 'ɛ', 'i': 'ɪ', 'o': 'oʊ', 'u': 'ʌ' };
+          return vowels[match.toLowerCase()] || match;
+        });
+      }
+
+      speakWord(word) {
+        if ('speechSynthesis' in window) {
+          const utterance = new SpeechSynthesisUtterance(word);
+          utterance.lang = 'en-US';
+          utterance.rate = 0.8;
+          speechSynthesis.speak(utterance);
+        } else {
+          alert('Speech synthesis not supported in this browser.');
+        }
+      }
+
+      showError(message) {
+        const container = document.getElementById('resultContainer');
+        container.innerHTML = `
+          <div class="error-state">
+            <div class="error-icon">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>Oops! Something went wrong</h3>
+            <p>${message}</p>
+          </div>
+        `;
+        container.className = 'result-card fade-in';
+      }
+
+      showSuggestions(query) {
+        // This would typically call an API for word suggestions
+        // For now, we'll just show a placeholder
+        console.log('Showing suggestions for:', query);
+      }
+    }
+
+    // Initialize the dictionary
+    const dictionary = new SmartDictionary();
+
+    // Modal functions
+    function showAbout() {
+      const modal = new bootstrap.Modal(document.getElementById('aboutModal'));
+      modal.show();
+    }
+
+    // Add some sample words for demonstration
+    const sampleWords = ['serendipity', 'ephemeral', 'mellifluous', 'petrichor', 'aurora'];
+    let currentSampleIndex = 0;
+
+    function cycleSampleWords() {
+      const input = document.getElementById('searchInput');
+      input.value = sampleWords[currentSampleIndex];
+      currentSampleIndex = (currentSampleIndex + 1) % sampleWords.length;
+    }
+
+    // Add sample word cycling to the hero section
+    document.addEventListener('DOMContentLoaded', () => {
+      const hero = document.querySelector('.hero p');
+      hero.innerHTML += '<br><small class="mt-3 d-block opacity-75">💡 Try: <span id="sampleWord" style="cursor: pointer; text-decoration: underline;">serendipity</span></small>';
+      
+      document.getElementById('sampleWord').addEventListener('click', () => {
+        cycleSampleWords();
+        document.getElementById('searchInput').value = sampleWords[currentSampleIndex];
+      });
+    });
+  </script>
+</body>
+</html>
