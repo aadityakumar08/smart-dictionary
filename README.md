@@ -48,7 +48,7 @@ A modern, responsive web-based dictionary application that provides comprehensiv
 ## 🚀 Quick Start
 
 ### Option 1: Live Demo
-Visit the live application: [Smart Dictionary Demo](https://your-username.github.io/smart-dictionary)
+Visit the live application: [Smart Dictionary Demo](https://aadityakumar08.github.io/smart-dictionary)
 
 ### Option 2: Local Development
 
@@ -182,8 +182,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 If you have any questions or need help:
 
-- **Issues**: [GitHub Issues](https://github.com/your-username/smart-dictionary/issues)
-- **Email**: your-email@example.com
+- **Issues**: [GitHub Issues](https://github.com/aadityakumar08/smart-dictionary/issues)
+- **Email**: aadibhai5099@gmial.com
 - **Documentation**: Check the [docs/](docs/) folder for detailed guides
 
 ## 🚀 Deployment
@@ -207,16 +207,16 @@ If you have any questions or need help:
 ---
 
 <div align="center">
-  <p>Made with ❤️ by [Your Name]</p>
+  <p>Made with ❤️ by [Aditya Kumar]</p>
   <p>
-    <a href="https://github.com/your-username/smart-dictionary/stargazers">
-      <img src="https://img.shields.io/github/stars/your-username/smart-dictionary" alt="Stars">
+    <a href="https://github.com/aadityakumar08/smart-dictionary/stargazers">
+      <img src="https://img.shields.io/github/stars/aadityakumar08/smart-dictionary" alt="Stars">
     </a>
-    <a href="https://github.com/your-username/smart-dictionary/network">
-      <img src="https://img.shields.io/github/forks/your-username/smart-dictionary" alt="Forks">
+    <a href="https://github.com/aadityakumar08/smart-dictionary/network">
+      <img src="https://img.shields.io/github/forks/aadityakumar08/smart-dictionary" alt="Forks">
     </a>
-    <a href="https://github.com/your-username/smart-dictionary/issues">
-      <img src="https://img.shields.io/github/issues/your-username/smart-dictionary" alt="Issues">
+    <a href="https://github.com/aadityakumar08/smart-dictionary/issues">
+      <img src="https://img.shields.io/github/issues/aadityakumar08/smart-dictionary" alt="Issues">
     </a>
   </p>
 </div> 
